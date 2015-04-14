@@ -35,6 +35,8 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		
 		let req = Request(delegate: self)
 		req.get(request: "clientLocation.php", withParams: ["":""])
+		
+		self.sortRooms()
     }
 
     override func didReceiveMemoryWarning()
@@ -60,7 +62,8 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
 	{
         let cell = tableView.dequeueReusableCellWithIdentifier("default", forIndexPath: indexPath) as! RoomTableViewCell
-
+		cell.errorLabel.hidden = true
+		
         // Configure the cell...
 		let room = self.testData[indexPath.row]
 		
@@ -72,11 +75,14 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		{
 			cell.roomSwitch.enabled = !room.occupied
 			
-			cell.circleView.alpha = 0.5
-			cell.amountView.alpha = 0.5
+			cell.circleView.image = UIImage(named: "circle_red")
+			
+			cell.amountView.image = UIImage(named: "person-full\(room.amount)")
 		}
-		
-		cell.amountView.image = UIImage(named: "person\(room.amount)") ?? UIImage(named: "person_u")
+		else
+		{
+			cell.amountView.image = UIImage(named: "person\(room.amount)") ?? UIImage(named: "person_u")
+		}
 
         return cell
     }
@@ -163,6 +169,15 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 	{
 		println("Refreshing...")
 		self.refreshControl?.endRefreshing()
+	}
+	
+	// MARK: - Methods
+	func sortRooms()
+	{
+		self.testData.sort({ $0.code.lowercaseString < $1.code.lowercaseString })
+		self.testData.sort({ $0.occupied == false && $1.occupied != false })
+		
+		tableView.reloadData()
 	}
 
     /*

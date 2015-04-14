@@ -66,10 +66,17 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Out of reach" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mab-nU-2Ha">
+                                            <rect key="frame" x="529" y="54" width="63" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="centerY" secondItem="GBv-1R-6zA" secondAttribute="centerY" id="4XW-if-1by"/>
                                         <constraint firstItem="QAf-BJ-EVs" firstAttribute="leading" secondItem="bU0-WG-ThZ" secondAttribute="leadingMargin" constant="3" id="6q7-Kp-39w"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Mab-nU-2Ha" secondAttribute="bottom" constant="-8" id="IWO-CN-Zot"/>
                                         <constraint firstItem="svR-P5-GHK" firstAttribute="trailing" secondItem="bU0-WG-ThZ" secondAttribute="trailingMargin" id="KO0-oS-YL2"/>
                                         <constraint firstAttribute="centerY" secondItem="svR-P5-GHK" secondAttribute="centerY" id="bnh-57-jlO"/>
                                         <constraint firstAttribute="centerY" secondItem="QAf-BJ-EVs" secondAttribute="centerY" id="dbR-kf-TzZ"/>
@@ -77,11 +84,13 @@
                                         <constraint firstItem="GBv-1R-6zA" firstAttribute="width" secondItem="QAf-BJ-EVs" secondAttribute="width" id="mGN-7F-Ii7"/>
                                         <constraint firstItem="GBv-1R-6zA" firstAttribute="leading" secondItem="bU0-WG-ThZ" secondAttribute="leadingMargin" constant="3" id="nqt-kd-2mX"/>
                                         <constraint firstItem="cYe-ii-vvG" firstAttribute="leading" secondItem="GBv-1R-6zA" secondAttribute="trailing" constant="8" id="o3b-At-5E5"/>
+                                        <constraint firstItem="Mab-nU-2Ha" firstAttribute="trailing" secondItem="bU0-WG-ThZ" secondAttribute="trailingMargin" id="rLw-8u-A2a"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="amountView" destination="cYe-ii-vvG" id="NRv-Tj-ng0"/>
                                     <outlet property="circleView" destination="QAf-BJ-EVs" id="IAQ-4x-KU6"/>
+                                    <outlet property="errorLabel" destination="Mab-nU-2Ha" id="nK8-8H-EP9"/>
                                     <outlet property="roomLabel" destination="GBv-1R-6zA" id="Dqv-4P-Tld"/>
                                     <outlet property="roomSwitch" destination="svR-P5-GHK" id="PkJ-id-C6r"/>
                                 </connections>

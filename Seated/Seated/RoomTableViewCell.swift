@@ -15,6 +15,7 @@ class RoomTableViewCell: UITableViewCell
 	@IBOutlet weak var roomSwitch: UISwitch!
 	@IBOutlet weak var amountView: UIImageView!
 	@IBOutlet weak var circleView: UIImageView!
+	@IBOutlet weak var errorLabel: UILabel!
 	
 	var room: Room?
 	

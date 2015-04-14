@@ -27,6 +27,11 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		
 		self.tableView.estimatedRowHeight = 70
 		self.tableView.rowHeight = UITableViewAutomaticDimension
+		
+		let refresh = UIRefreshControl()
+		refresh.addTarget(self, action: Selector("refresh"), forControlEvents: .ValueChanged)
+		
+		self.refreshControl = refresh
     }
 
     override func didReceiveMemoryWarning()
@@ -60,7 +65,10 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		
 		cell.roomLabel.text = room.code
 		
-		cell.roomSwitch.enabled = !room.occupied
+		if room.occupied
+		{
+			cell.roomSwitch.enabled = !room.occupied
+		}
 
         return cell
     }
@@ -126,6 +134,13 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 	func handleActionFeedback(forMethod method: String)
 	{
 		println("Handling action feedback for method \(method)")
+	}
+	
+	// MARK: - Refresh handling
+	func refresh()
+	{
+		println("Refreshing...")
+		self.refreshControl?.endRefreshing()
 	}
 
     /*

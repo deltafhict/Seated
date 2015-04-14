@@ -21,6 +21,8 @@
 		491747531ADD0BD500730AB8 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491747521ADD0BD500730AB8 /* Room.swift */; };
 		491747571ADD0D1E00730AB8 /* RoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491747561ADD0D1E00730AB8 /* RoomTableViewCell.swift */; };
 		491747591ADD0E2300730AB8 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491747581ADD0E2300730AB8 /* Request.swift */; };
+		4917475B1ADD1EE400730AB8 /* SeatedTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4917475A1ADD1EE400730AB8 /* SeatedTabBarController.swift */; };
+		4917475D1ADD1F4900730AB8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4917475C1ADD1F4900730AB8 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,8 @@
 		491747521ADD0BD500730AB8 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 		491747561ADD0D1E00730AB8 /* RoomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomTableViewCell.swift; sourceTree = "<group>"; };
 		491747581ADD0E2300730AB8 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		4917475A1ADD1EE400730AB8 /* SeatedTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeatedTabBarController.swift; sourceTree = "<group>"; };
+		4917475C1ADD1F4900730AB8 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,10 +156,11 @@
 				4917470F1ADD08D200730AB8 /* Main.storyboard */,
 				491747091ADD08D200730AB8 /* AppDelegate.swift */,
 				4917472B1ADD0AD200730AB8 /* BuildingTableViewController.swift */,
+				491747561ADD0D1E00730AB8 /* RoomTableViewCell.swift */,
+				4917475A1ADD1EE400730AB8 /* SeatedTabBarController.swift */,
 				491747121ADD08D200730AB8 /* Images.xcassets */,
 				491747141ADD08D200730AB8 /* LaunchScreen.xib */,
 				491747071ADD08D200730AB8 /* Supporting Files */,
-				491747561ADD0D1E00730AB8 /* RoomTableViewCell.swift */,
 			);
 			path = Seated;
 			sourceTree = "<group>";
@@ -192,6 +197,7 @@
 				491747341ADD0BA900730AB8 /* Supporting Files */,
 				491747521ADD0BD500730AB8 /* Room.swift */,
 				491747581ADD0E2300730AB8 /* Request.swift */,
+				4917475C1ADD1F4900730AB8 /* Extensions.swift */,
 			);
 			path = SeatedKit;
 			sourceTree = "<group>";
@@ -395,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491747571ADD0D1E00730AB8 /* RoomTableViewCell.swift in Sources */,
+				4917475B1ADD1EE400730AB8 /* SeatedTabBarController.swift in Sources */,
 				4917470A1ADD08D200730AB8 /* AppDelegate.swift in Sources */,
 				4917472C1ADD0AD200730AB8 /* BuildingTableViewController.swift in Sources */,
 			);
@@ -413,6 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				491747531ADD0BD500730AB8 /* Room.swift in Sources */,
+				4917475D1ADD1F4900730AB8 /* Extensions.swift in Sources */,
 				491747591ADD0E2300730AB8 /* Request.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

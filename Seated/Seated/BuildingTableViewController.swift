@@ -32,6 +32,9 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		refresh.addTarget(self, action: Selector("refresh"), forControlEvents: .ValueChanged)
 		
 		self.refreshControl = refresh
+		
+		let req = Request(delegate: self)
+		req.get(request: "clientLocation.php", withParams: ["":""])
     }
 
     override func didReceiveMemoryWarning()
@@ -68,7 +71,12 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		if room.occupied
 		{
 			cell.roomSwitch.enabled = !room.occupied
+			
+			cell.circleView.alpha = 0.5
+			cell.amountView.alpha = 0.5
 		}
+		
+		cell.amountView.image = UIImage(named: "person\(room.amount)") ?? UIImage(named: "person_u")
 
         return cell
     }
@@ -76,6 +84,11 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 	override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
 	{
 		self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+	}
+	
+	override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+	{
+		return 70.0
 	}
 
     /*
@@ -123,7 +136,16 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 	// MARK: - Request delegate
 	func handleJSON(json: NSDictionary, forRequest request: String, withParams params: [String : String])
 	{
-		println("Handling JSON: \(json)")
+		if let _location = json["WirelessClientLocation"] as? NSDictionary
+		{
+			if let _mapInfo = _location["MapInfo"] as? NSDictionary
+			{
+				if let _locationString = _mapInfo["mapHierarchyString"] as? String
+				{
+					println("Je bevindt je nu in \(_locationString)")
+				}
+			}
+		}
 	}
 	
 	func handleError(error: NSError)

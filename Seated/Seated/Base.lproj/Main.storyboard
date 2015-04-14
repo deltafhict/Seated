@@ -35,40 +35,53 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" id="Ij8-CT-tqA" customClass="RoomTableViewCell" customModule="Seated" customModuleProvider="target">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="default" rowHeight="70" id="Ij8-CT-tqA" customClass="RoomTableViewCell" customModule="Seated" customModuleProvider="target">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ij8-CT-tqA" id="bU0-WG-ThZ">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBv-1R-6zA">
-                                            <rect key="frame" x="8" y="11" width="46" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="svR-P5-GHK">
-                                            <rect key="frame" x="543" y="6" width="51" height="31"/>
+                                            <rect key="frame" x="543" y="19" width="51" height="31"/>
                                             <connections>
                                                 <action selector="switchValueChanged:" destination="Ij8-CT-tqA" eventType="valueChanged" id="eFc-8y-xa3"/>
                                             </connections>
                                         </switch>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person" translatesAutoresizingMaskIntoConstraints="NO" id="cYe-ii-vvG">
-                                            <rect key="frame" x="62" y="4" width="35" height="35"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person1" translatesAutoresizingMaskIntoConstraints="NO" id="cYe-ii-vvG">
+                                            <rect key="frame" x="79" y="17" width="200" height="35"/>
                                             <constraints>
+                                                <constraint firstAttribute="width" constant="200" id="9g9-HN-f9h"/>
                                                 <constraint firstAttribute="height" constant="35" id="eR7-9e-9a2"/>
                                             </constraints>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle" translatesAutoresizingMaskIntoConstraints="NO" id="QAf-BJ-EVs">
+                                            <rect key="frame" x="11" y="5" width="60" height="60"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="60" id="Zwv-hI-qqM"/>
+                                                <constraint firstAttribute="width" constant="60" id="r9S-Rr-jwa"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Room" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBv-1R-6zA">
+                                            <rect key="frame" x="11" y="24" width="60" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="centerY" secondItem="GBv-1R-6zA" secondAttribute="centerY" id="BtX-45-LfO"/>
-                                        <constraint firstAttribute="centerY" secondItem="svR-P5-GHK" secondAttribute="centerY" id="GEm-dr-83r"/>
+                                        <constraint firstAttribute="centerY" secondItem="GBv-1R-6zA" secondAttribute="centerY" id="4XW-if-1by"/>
+                                        <constraint firstItem="QAf-BJ-EVs" firstAttribute="leading" secondItem="bU0-WG-ThZ" secondAttribute="leadingMargin" constant="3" id="6q7-Kp-39w"/>
                                         <constraint firstItem="svR-P5-GHK" firstAttribute="trailing" secondItem="bU0-WG-ThZ" secondAttribute="trailingMargin" id="KO0-oS-YL2"/>
+                                        <constraint firstAttribute="centerY" secondItem="svR-P5-GHK" secondAttribute="centerY" id="bnh-57-jlO"/>
+                                        <constraint firstAttribute="centerY" secondItem="QAf-BJ-EVs" secondAttribute="centerY" id="dbR-kf-TzZ"/>
+                                        <constraint firstAttribute="centerY" secondItem="cYe-ii-vvG" secondAttribute="centerY" id="jwd-R8-WDS"/>
+                                        <constraint firstItem="GBv-1R-6zA" firstAttribute="width" secondItem="QAf-BJ-EVs" secondAttribute="width" id="mGN-7F-Ii7"/>
+                                        <constraint firstItem="GBv-1R-6zA" firstAttribute="leading" secondItem="bU0-WG-ThZ" secondAttribute="leadingMargin" constant="3" id="nqt-kd-2mX"/>
                                         <constraint firstItem="cYe-ii-vvG" firstAttribute="leading" secondItem="GBv-1R-6zA" secondAttribute="trailing" constant="8" id="o3b-At-5E5"/>
-                                        <constraint firstItem="GBv-1R-6zA" firstAttribute="leading" secondItem="bU0-WG-ThZ" secondAttribute="leadingMargin" id="tSZ-ve-06O"/>
-                                        <constraint firstAttribute="centerY" secondItem="cYe-ii-vvG" secondAttribute="centerY" id="xJK-nj-zSi"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="amountView" destination="cYe-ii-vvG" id="NRv-Tj-ng0"/>
+                                    <outlet property="circleView" destination="QAf-BJ-EVs" id="IAQ-4x-KU6"/>
                                     <outlet property="roomLabel" destination="GBv-1R-6zA" id="Dqv-4P-Tld"/>
                                     <outlet property="roomSwitch" destination="svR-P5-GHK" id="PkJ-id-C6r"/>
                                 </connections>
@@ -116,7 +129,7 @@
         <scene sceneID="qdC-Uu-t98">
             <objects>
                 <navigationController id="yAb-ko-eNx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="R3" image="first" id="NqR-3R-1yx"/>
+                    <tabBarItem key="tabBarItem" title="R3" image="r3" id="NqR-3R-1yx"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="Y4b-DE-Oun">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -188,7 +201,7 @@
         <scene sceneID="Bjs-Xs-oQZ">
             <objects>
                 <navigationController id="yvo-iP-Fcu" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="R5" image="first" id="Ied-eV-Nvw"/>
+                    <tabBarItem key="tabBarItem" title="R5" image="r5" id="Ied-eV-Nvw"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="qwX-g4-g70">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -206,7 +219,7 @@
         <scene sceneID="PdC-X4-qne">
             <objects>
                 <navigationController id="LUT-mR-57m" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="R4" image="first" id="8uW-j6-6Pn"/>
+                    <tabBarItem key="tabBarItem" title="R4" image="r4" id="8uW-j6-6Pn"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="qYO-6q-Sqh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -224,7 +237,7 @@
         <scene sceneID="5Lx-Wk-rid">
             <objects>
                 <navigationController id="QWc-DG-Y1J" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="R1" image="first" id="HBS-zF-vlv"/>
+                    <tabBarItem key="tabBarItem" title="R1" image="r1" id="HBS-zF-vlv"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" id="SSa-LV-UT2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -240,7 +253,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="30" height="30"/>
-        <image name="person" width="35" height="88"/>
+        <image name="circle" width="70" height="70"/>
+        <image name="person1" width="35" height="88"/>
+        <image name="r1" width="37" height="25"/>
+        <image name="r3" width="9" height="25"/>
+        <image name="r4" width="28" height="25"/>
+        <image name="r5" width="23" height="25"/>
     </resources>
 </document>

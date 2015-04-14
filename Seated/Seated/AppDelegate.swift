@@ -16,6 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
 	{
 		// Override point for customization after application launch.
+		let tabBarController = self.window?.rootViewController as? SeatedTabBarController
+		
+		let r1 = tabBarController?.tabBar.items![0] as? UITabBarItem
+		r1!.selectedImage = UIImage(named: "r1_sel")
+		
+		let r3 = tabBarController?.tabBar.items![1] as? UITabBarItem
+		r3!.selectedImage = UIImage(named: "r3_sel")
+		
+		let r4 = tabBarController?.tabBar.items![2] as? UITabBarItem
+		r4!.selectedImage = UIImage(named: "r4_sel")
+		
+		let r5 = tabBarController?.tabBar.items![3] as? UITabBarItem
+		r5!.selectedImage = UIImage(named: "r5_sel")
+		
 		return true
 	}
 

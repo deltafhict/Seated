@@ -44,12 +44,6 @@ public class Request
 	/// The basestring of the request.
 	var baseString: String!
 	
-	/// The username to use
-	var username = ""
-	
-	/// The password to use
-	var password = ""
-	
 	public init(delegate: RequestDelegate)
 	{
 		self.delegate = delegate
@@ -135,60 +129,52 @@ public class Request
 			request.HTTPBody = (body as NSString).dataUsingEncoding(NSUTF8StringEncoding)
 		}
 		
-		// Authorization
-		let loginString = "\(self.username):\(self.password)"
-		let utf8String = (loginString as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-		let base64String = utf8String?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-		
-		// Headers
-		request.addValue("Basic \(base64String!)", forHTTPHeaderField: "Authorization")
-		
-		let task = session.dataTaskWithRequest(request, completionHandler:
+		let task = session.dataTaskWithRequest(request, completionHandler: {
+			(data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
+			
+			if(error != nil)
 			{
-				(data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
-				if(error != nil)
-				{
-					// If there is an error in the web request, print it to the console.
-					println("Request error: \(error.localizedDescription)")
-					
-					dispatch_async(dispatch_get_main_queue(), {
-						self.delegate.handleError(error)
-					})
-					
-					return
-				}
-				
-				if let httpResponse = response as? NSHTTPURLResponse
-				{
-					if httpResponse.statusCode == 204
-					{
-						dispatch_async(dispatch_get_main_queue(), {
-							self.delegate.handleActionFeedback(forMethod: method)
-						})
-						
-						return
-					}
-				}
-				
-				var err: NSError?
-				
-				var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: &err) as! NSDictionary
-				
-				if let error = err
-				{
-					// If there is an error parsing JSON, print it to the console.
-					println("JSON Error: \(error.localizedDescription)")
-					
-					dispatch_async(dispatch_get_main_queue(), {
-						self.delegate.handleError(error)
-					})
-					
-					return
-				}
+				// If there is an error in the web request, print it to the console.
+				println("Request error: \(error.localizedDescription)")
 				
 				dispatch_async(dispatch_get_main_queue(), {
-					self.delegate.handleJSON(jsonResult, forRequest: requestString, withParams: params)
+					self.delegate.handleError(error)
 				})
+				
+				return
+			}
+			
+			if let httpResponse = response as? NSHTTPURLResponse
+			{
+				if httpResponse.statusCode == 204
+				{
+					dispatch_async(dispatch_get_main_queue(), {
+						self.delegate.handleActionFeedback(forMethod: method)
+					})
+					
+					return
+				}
+			}
+			
+			var err: NSError?
+			
+			var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: &err) as! NSDictionary
+			
+			if let error = err
+			{
+				// If there is an error parsing JSON, print it to the console.
+				println("JSON Error: \(error.localizedDescription)")
+				
+				dispatch_async(dispatch_get_main_queue(), {
+					self.delegate.handleError(error)
+				})
+				
+				return
+			}
+			
+			dispatch_async(dispatch_get_main_queue(), {
+				self.delegate.handleJSON(jsonResult, forRequest: requestString, withParams: params)
+			})
 		})
 		
 		task.resume()

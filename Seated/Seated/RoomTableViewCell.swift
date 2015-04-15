@@ -49,11 +49,11 @@ class RoomTableViewCell: UITableViewCell
 			
 			if room.occupied
 			{
-				room.occupiedByMe = true
+				room.occupiedByMe = "306880@student.fontys.nl"
 			}
 			else
 			{
-				room.occupiedByMe = false
+				room.occupiedByMe = nil
 			}
 			
 			self.delegate?.releaseRooms(occupiedRoom: room, released: !room.occupied)

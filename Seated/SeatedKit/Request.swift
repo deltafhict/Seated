@@ -44,10 +44,10 @@ public class Request
 	/// The basestring of the request.
 	var baseString: String!
 	
-	public init(delegate: RequestDelegate)
+	public init(delegate: RequestDelegate, baseString: String? = "http://145.85.4.86/")
 	{
 		self.delegate = delegate
-		self.baseString = "http://145.85.4.86/"
+		self.baseString = baseString ?? "http://145.85.4.86/"
 	}
 	
 	/**
@@ -152,6 +152,11 @@ public class Request
 						self.delegate.handleActionFeedback(forMethod: method)
 					})
 					
+					return
+				}
+				// Quick, very dirty fix
+				else if requestString.rangeOfString("check") != nil
+				{
 					return
 				}
 			}

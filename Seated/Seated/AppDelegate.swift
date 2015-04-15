@@ -30,6 +30,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 		let r5 = tabBarController?.tabBar.items![3] as? UITabBarItem
 		r5!.selectedImage = UIImage(named: "r5_sel")
 		
+		let defaults = NSUserDefaults.standardUserDefaults()
+		let startedAmount = defaults.integerForKey("startAmount")
+		
+		defaults.setInteger((startedAmount + 1), forKey: "startAmount")
+		
 		return true
 	}
 

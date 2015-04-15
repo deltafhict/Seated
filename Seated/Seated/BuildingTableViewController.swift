@@ -9,7 +9,7 @@
 import UIKit
 import SeatedKit
 
-class BuildingTableViewController: UITableViewController, RequestDelegate
+class BuildingTableViewController: UITableViewController, RequestDelegate, OccupyDelegate
 {
 	var testData = [Room]()
 	
@@ -42,20 +42,17 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
     override func didReceiveMemoryWarning()
 	{
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
 	{
-        // Return the number of sections.
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-        // Return the number of rows in the section.
         return self.testData.count
     }
 
@@ -65,22 +62,34 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		cell.errorLabel.hidden = true
 		
         // Configure the cell...
+		cell.delegate = self
 		let room = self.testData[indexPath.row]
 		
 		cell.room = room
 		
 		cell.roomLabel.text = room.code
 		
-		if room.occupied
+		if room.occupied && !room.occupiedByMe
 		{
 			cell.roomSwitch.enabled = !room.occupied
+			cell.roomSwitch.on = false
 			
 			cell.circleView.image = UIImage(named: "circle_red")
+			cell.amountView.image = UIImage(named: "person-full\(room.amount)")
+		}
+		else if room.occupied && room.occupiedByMe
+		{
+			cell.roomSwitch.on = true
 			
+			cell.circleView.image = UIImage(named: "circle_red")
 			cell.amountView.image = UIImage(named: "person-full\(room.amount)")
 		}
 		else
 		{
+			cell.roomSwitch.on = false
+			cell.roomSwitch.enabled = true
+			
+			cell.circleView.image = UIImage(named: "circle")
 			cell.amountView.image = UIImage(named: "person\(room.amount)") ?? UIImage(named: "person_u")
 		}
 
@@ -96,48 +105,6 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 	{
 		return 70.0
 	}
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
-	{
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
-	{
-        if editingStyle == .Delete
-		{
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        }
-		else if editingStyle == .Insert
-		{
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath)
-	{
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool
-	{
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 	
 	// MARK: - Request delegate
 	func handleJSON(json: NSDictionary, forRequest request: String, withParams params: [String : String])
@@ -164,10 +131,29 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 		println("Handling action feedback for method \(method)")
 	}
 	
+	// MARK: - Occupy delegate
+	func releaseRooms(occupiedRoom room: Room, released: Bool)
+	{
+		for room in self.testData
+		{
+			if room.occupiedByMe
+			{
+				room.occupiedByMe = false
+				room.occupied = false
+			}
+		}
+		
+		room.occupied = !released
+		room.occupiedByMe = !released
+		
+		self.sortRooms()
+	}
+	
 	// MARK: - Refresh handling
 	func refresh()
 	{
 		println("Refreshing...")
+		self.sortRooms()
 		self.refreshControl?.endRefreshing()
 	}
 	
@@ -175,19 +161,10 @@ class BuildingTableViewController: UITableViewController, RequestDelegate
 	func sortRooms()
 	{
 		self.testData.sort({ $0.code.lowercaseString < $1.code.lowercaseString })
-		self.testData.sort({ $0.occupied == false && $1.occupied != false })
+		self.testData.sort({ !$0.occupied && $1.occupied })
 		
-		tableView.reloadData()
+		self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+		
+		//self.tableView.reloadData()
 	}
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-	{
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
 }

@@ -9,6 +9,11 @@
 import UIKit
 import SeatedKit
 
+protocol OccupyDelegate
+{
+	func releaseRooms(occupiedRoom room: Room, released: Bool)
+}
+
 class RoomTableViewCell: UITableViewCell
 {
 	@IBOutlet weak var roomLabel: UILabel!
@@ -18,6 +23,8 @@ class RoomTableViewCell: UITableViewCell
 	@IBOutlet weak var errorLabel: UILabel!
 	
 	var room: Room?
+	
+	var delegate: OccupyDelegate?
 	
     override func awakeFromNib()
 	{
@@ -35,6 +42,21 @@ class RoomTableViewCell: UITableViewCell
 	@IBAction func switchValueChanged(sender: AnyObject)
 	{
 		let roomSwitch = sender as! UISwitch
-		println("The switch value changed to \(roomSwitch.on) for room \(room?.code)")
+		
+		if let room = room
+		{
+			room.occupied = roomSwitch.on
+			
+			if room.occupied
+			{
+				room.occupiedByMe = true
+			}
+			else
+			{
+				room.occupiedByMe = false
+			}
+			
+			self.delegate?.releaseRooms(occupiedRoom: room, released: !room.occupied)
+		}
 	}
 }

@@ -16,19 +16,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 	func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
 	{
 		// Override point for customization after application launch.
-		let tabBarController = self.window?.rootViewController as? SeatedTabBarController
 		
-		let r1 = tabBarController?.tabBar.items![0] as? UITabBarItem
-		r1!.selectedImage = UIImage(named: "r1_sel")
+		// FIXME: Below is a workaround for non-working selected images in a tab bar via the storyboard.
+		self.selectedImagesWorkaround()
 		
-		let r3 = tabBarController?.tabBar.items![1] as? UITabBarItem
-		r3!.selectedImage = UIImage(named: "r3_sel")
-		
-		let r4 = tabBarController?.tabBar.items![2] as? UITabBarItem
-		r4!.selectedImage = UIImage(named: "r4_sel")
-		
-		let r5 = tabBarController?.tabBar.items![3] as? UITabBarItem
-		r5!.selectedImage = UIImage(named: "r5_sel")
+		//defaults.setInteger(0, forKey: "startAmount")
 		
 		let defaults = NSUserDefaults.standardUserDefaults()
 		let startedAmount = defaults.integerForKey("startAmount")
@@ -63,5 +55,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 	func applicationWillTerminate(application: UIApplication)
 	{
 		// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	}
+}
+
+extension AppDelegate
+{
+	func selectedImagesWorkaround()
+	{
+		let tabBarController = self.window?.rootViewController as? SeatedTabBarController
+		
+		let r1 = tabBarController?.tabBar.items![0] as? UITabBarItem
+		r1!.selectedImage = UIImage(named: "r1_sel")
+		
+		let r3 = tabBarController?.tabBar.items![1] as? UITabBarItem
+		r3!.selectedImage = UIImage(named: "r3_sel")
+		
+		let r4 = tabBarController?.tabBar.items![2] as? UITabBarItem
+		r4!.selectedImage = UIImage(named: "r4_sel")
+		
+		let r5 = tabBarController?.tabBar.items![3] as? UITabBarItem
+		r5!.selectedImage = UIImage(named: "r5_sel")
 	}
 }

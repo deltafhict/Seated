@@ -13,7 +13,8 @@ public class Room
 	public var code: String
 	public var amount: Int
 	public var occupied: Bool
-	public var occupiedByMe: String?
+	public var occupiedBy: String?
+	public var canOccupy = false
 	
 	public init(_ code: String, amount: Int, occupied: Bool = false)
 	{

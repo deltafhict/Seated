@@ -130,7 +130,7 @@ public class Request
 		}
 		
 		let task = session.dataTaskWithRequest(request, completionHandler: {
-			(data: NSData!, response: NSURLResponse!, error: NSError!) -> Void in
+			(data: NSData!, response: NSURLResponse!, error: NSError!) in
 			
 			if(error != nil)
 			{
@@ -163,7 +163,11 @@ public class Request
 			
 			var err: NSError?
 			
-			var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: &err) as! NSDictionary
+			let jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: .MutableContainers, error: &err) as? NSDictionary
+			
+			if jsonResult == nil {
+				return
+			}
 			
 			if let error = err
 			{
@@ -178,7 +182,7 @@ public class Request
 			}
 			
 			dispatch_async(dispatch_get_main_queue(), {
-				self.delegate.handleJSON(jsonResult, forRequest: requestString, withParams: params)
+				self.delegate.handleJSON(jsonResult!, forRequest: requestString, withParams: params)
 			})
 		})
 		

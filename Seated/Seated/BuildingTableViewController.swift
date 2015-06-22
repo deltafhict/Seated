@@ -14,7 +14,7 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 	var buildings = [Building]()
 	var rooms = [Room]()
 	
-	let email = "306880@student.fontys.nl"
+	let email = "305062@student.fontys.nl"
 	
 	var currentFloor: String?
 	{
@@ -47,6 +47,10 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 		let req = Request(delegate: self)
 		req.get(request: "clientLocation.php", withParams: ["":""])
 		
+		//self.currentBuilding = "S1"
+		
+		//self.currentFloor = "S1-BG"
+		
 		self.sortRooms()
 		
 		let defaults = NSUserDefaults.standardUserDefaults()
@@ -65,7 +69,7 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 			}
 			else
 			{
-				println("startedAmount mod 10 = \(startedAmount % 10)")
+				println("startedAmount mod 10 = \(startedAmount % 10), times started: \(startedAmount)")
 			}
 		}
     }
@@ -103,15 +107,16 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 		if room.occupied && room.occupiedBy != nil && room.occupiedBy != self.email
 		{
 			cell.roomSwitch.enabled = !room.occupied
-			cell.roomSwitch.on = false
-			cell.roomSwitch.enabled = room.canOccupy
+			cell.roomSwitch.on = room.occupiedBy == self.email
+			cell.roomSwitch.enabled = false
 			
 			cell.circleView.image = UIImage(named: "circle_red")
 			cell.amountView.image = UIImage(named: "person-full\(room.amount)") ?? UIImage(named: "person-fill_u")
 		}
 		else if room.occupied && room.occupiedBy == self.email
 		{
-			cell.roomSwitch.on = true
+			cell.roomSwitch.on = room.occupiedBy != nil
+			
 			cell.roomSwitch.enabled = room.canOccupy
 			
 			cell.circleView.image = UIImage(named: "circle_red")
@@ -119,7 +124,7 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 		}
 		else
 		{
-			cell.roomSwitch.on = false
+			cell.roomSwitch.on = room.occupiedBy != nil
 			cell.roomSwitch.enabled = room.canOccupy
 			
 			cell.circleView.image = UIImage(named: "circle")
@@ -189,6 +194,8 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 	
 	func setupRooms(json: NSDictionary)
 	{
+		self.rooms = []
+		var found = false
 		if let _buildings = json["Buildings"] as? NSArray
 		{
 			for building in _buildings
@@ -198,53 +205,57 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 					let building = Building(_name)
 					
 					self.buildings.append(building)
+					
+					if building.name == self.currentBuilding {
+						found = true
+					}
 				}
 				
-				if let _floors = building["floors"] as? NSArray
-				{
-					for floor in _floors
+				if found {
+					if let _floors = building["floors"] as? NSArray
 					{
-						if let _rooms = floor["rooms"] as? NSArray
+						for floor in _floors
 						{
-							if _rooms.count > 0
+							if let _rooms = floor["rooms"] as? NSArray
 							{
-								self.rooms = [Room]()
-								
-								for room in _rooms
+								if _rooms.count > 0
 								{
-									var code: String!
-									var amount: Int!
-									var occupied: Bool!
-									
-									var occupiedBy: String?
-									
-									if let _code = room["lokaal"] as? String
+									for room in _rooms
 									{
-										code = _code
-									}
-									
-									if let _amount = room["personen"] as? String
-									{
-										amount = _amount.toInt()
-									}
-									
-									if let _occupied = room["gereserveerd"] as? String
-									{
-										occupied = _occupied.toInt()?.toBool()
-									}
-									
-									if let _occupiedBy = room["email"] as? String
-									{
-										occupiedBy = _occupiedBy
-									}
-									
-									if code != nil && amount != nil && occupied != nil
-									{
-										let room = Room(code, amount: amount, occupied: occupied)
+										var code: String!
+										var amount: Int!
+										var occupied: Bool!
 										
-										room.occupiedBy = occupiedBy
+										var occupiedBy: String?
 										
-										self.rooms.append(room)
+										if let _code = room["lokaal"] as? String
+										{
+											code = _code
+										}
+										
+										if let _amount = room["personen"] as? String
+										{
+											amount = _amount.toInt()
+										}
+										
+										if let _occupied = room["gereserveerd"] as? String
+										{
+											occupied = _occupied.toInt()?.toBool()
+										}
+										
+										if let _occupiedBy = room["email"] as? String
+										{
+											occupiedBy = _occupiedBy
+										}
+										
+										if code != nil && amount != nil && occupied != nil
+										{
+											let room = Room(code, amount: amount, occupied: occupied)
+											
+											room.occupiedBy = occupiedBy
+											
+											self.rooms.append(room)
+										}
 									}
 								}
 							}
@@ -345,14 +356,13 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 	func getRooms()
 	{
 		let irisReq = Request(delegate: self, baseString: "http://i300486.iris.fhict.nl/Seated/")
-		irisReq.get(request: "getRooms.php", withParams: ["":""])
+		irisReq.get(request: "getRooms.php", withParams: ["": ""])
 	}
 	
 	func checkIn(room: Room)
 	{
 		let irisReq = Request(delegate: self, baseString: "http://i300486.iris.fhict.nl/Seated/")
-		//irisReq.post(request: "checkin.php", withParams: ["email":self.email, "gebouw":self.currentBuilding!, "lokaal":room.code])
-		irisReq.post(request: "checkin.php", withParams: ["email":self.email, "gebouw":"S1", "lokaal":room.code])
+		irisReq.post(request: "checkin.php", withParams: ["email":self.email, "gebouw":self.currentBuilding!, "lokaal":room.code])
 		
 		for myRoom in self.rooms
 		{
@@ -374,8 +384,10 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 	func checkOut(room: Room)
 	{
 		let irisReq = Request(delegate: self, baseString: "http://i300486.iris.fhict.nl/Seated/")
-		//irisReq.post(request: "checkout.php", withParams: ["email":self.email, "gebouw":self.currentBuilding!, "lokaal":room.code])
-		irisReq.post(request: "checkout.php", withParams: ["email":self.email, "gebouw":"S1", "lokaal":room.code])
+		irisReq.post(request: "checkout.php", withParams: ["email":self.email, "gebouw":self.currentBuilding!, "lokaal":room.code])
+		
+		room.occupiedBy = nil
+		room.occupied = false
 		
 		self.sortRooms()
 	}
@@ -383,7 +395,6 @@ class BuildingTableViewController: UITableViewController, RequestDelegate, Occup
 	func canCheck()
 	{
 		let irisReq = Request(delegate: self, baseString: "http://i300486.iris.fhict.nl/Seated/")
-		//irisReq.get(request: "canCheck.php", withParams: ["email":self.email, "gebouw":self.currentBuilding!, "verdieping":self.currentFloor!])
-		irisReq.get(request: "canCheck.php", withParams: ["email":self.email, "gebouw":"S1", "verdieping":"S1-BG"])
+		irisReq.get(request: "canCheck.php", withParams: ["email":self.email, "gebouw":self.currentBuilding!, "verdieping":self.currentFloor!])
 	}
 }
